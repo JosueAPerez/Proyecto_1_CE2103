@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
             return 1;
         }
     }
-    if (arc_size != "SMALL" && arc_size != "MEDIUM" && arc_size != "LARGE")
+    if (arc_size != "SMALL" && arc_size != "MEDIUM" && arc_size != "LARGE" && arc_size != "TEST")
     {
         throw_error_message();
         return 1;
@@ -56,6 +56,9 @@ int main(int argc, char *argv[])
     else if (arc_size == "LARGE")
     {
         int_amount = (2LL * 1024 * 1024 * 1024) / 4;
+    }
+    else if (arc_size=="TEST"){
+        int_amount = 100;
     }
     FILE *archivo = fopen(output_path.c_str(), "wb");
     if (archivo == nullptr)

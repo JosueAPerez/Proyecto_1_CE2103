@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     long long int_amount;
     // tamanio del buffer
     const int Buffer_size = 1024 * 1024;
-    int32_t* buffer= new int32_t[Buffer_size];
+    int32_t *buffer = new int32_t[Buffer_size];
     if (argc < 5)
     {
         throw_error_message();
@@ -47,17 +47,18 @@ int main(int argc, char *argv[])
     }
     if (arc_size == "SMALL")
     {
-        int_amount = (512LL * 1024 * 1024) / 4;
+        int_amount = (128LL * 1024 * 1024) / 4;
     }
     else if (arc_size == "MEDIUM")
     {
-        int_amount = (1LL * 1024 * 1024 * 1024) / 4;
+        int_amount = (256LL * 1024 * 1024) / 4;
     }
     else if (arc_size == "LARGE")
     {
-        int_amount = (2LL * 1024 * 1024 * 1024) / 4;
+        int_amount = (512LL * 1024 * 1024) / 4;
     }
-    else if (arc_size=="TEST"){
+    else if (arc_size == "TEST")
+    {
         int_amount = 100;
     }
     FILE *archivo = fopen(output_path.c_str(), "wb");
@@ -72,12 +73,14 @@ int main(int argc, char *argv[])
     for (long long i = 0; i < int_amount; i++)
     {
         buffer[j] = dist(rng);
-      j++;
-        if(j==Buffer_size){
-            size_t escritos = fwrite(buffer,sizeof(int32_t),Buffer_size,archivo);
-            j=0;
-            if (escritos!=Buffer_size){
-                cerr<< "Error: no se pudieron escribir todos los datos"<<endl;
+        j++;
+        if (j == Buffer_size)
+        {
+            size_t escritos = fwrite(buffer, sizeof(int32_t), Buffer_size, archivo);
+            j = 0;
+            if (escritos != Buffer_size)
+            {
+                cerr << "Error: no se pudieron escribir todos los datos" << endl;
                 return 1;
             }
         }

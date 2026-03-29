@@ -8,11 +8,13 @@ class Page {
         int pageNumber;
         bool isDirty;
         int pageSize;
+        long long lastUsed;
     Page(int pageSize){
         this->pageSize=pageSize;
         this->pageNumber = -1;
         this->isDirty=false;
         this->data = new int32_t[pageSize];
+        this->lastUsed=0;
     }
     ~Page(){
         delete[] data;

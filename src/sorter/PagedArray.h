@@ -15,6 +15,7 @@ private:
     long long pageFaults;      // contador de page faults
     long long pageHits;        // contador de page hits
     int nextChange;
+    long long lruCounter;
     int findPage(int pageNumber);       // busca si una página está cargada, retorna su índice o -1
     int findFreePage();                 // busca un espacio libre, retorna su índice o -1
     int selectVictim();                 // algoritmo de reemplazo, retorna índice de la víctima

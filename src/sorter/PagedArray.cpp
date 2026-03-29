@@ -9,6 +9,7 @@ PagedArray::PagedArray(const char *filePath, int pageSize, int pageCount, long l
     this->pageFaults = 0;
     this->pageHits = 0;
     this->nextChange = 0;
+    this->lruCounter=0;
 
     // abrir el archivo en modo lectura/escritura
     this->archivo = fopen(filePath, "r+b");
@@ -119,15 +120,23 @@ int32_t &PagedArray::operator[](long long index)
         }
         loadPage(slot, pageNumber);
     }
+    lruCounter++;
+    pages[slot]->lastUsed = lruCounter;
     pages[slot]->isDirty = true;
     return pages[slot]->data[pageOffset];
 }
 
-int PagedArray::selectVictim()
-{
-    int change = nextChange;
-    nextChange = (nextChange + 1) % pageCount;
-    return change;
+int PagedArray::selectVictim() {
+    int victim = 0;
+    long long oldest = pages[0]->lastUsed;
+
+    for (int i = 1; i < pageCount; i++) {
+        if (pages[i]->lastUsed < oldest) {
+            oldest = pages[i]->lastUsed;
+            victim = i;
+        }
+    }
+    return victim;
 }
 long long PagedArray::getPageFaults() {
     return pageFaults;

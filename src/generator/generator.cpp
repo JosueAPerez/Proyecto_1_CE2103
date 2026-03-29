@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
     }
     else if (arc_size == "TEST")
     {
-        int_amount = 100;
+        int_amount = 1000;
     }
     FILE *archivo = fopen(output_path.c_str(), "wb");
     if (archivo == nullptr)

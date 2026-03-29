@@ -6,9 +6,9 @@
 #include <string>
 #include <chrono>
 #include "PagedArray.h"
-#include "algorithms/bubble_sort.h"
-#include "algorithms/selection_sort.h"
 #include "algorithms/insertion_sort.h"
+#include "algorithms/quick_sort_m3.h"
+#include "algorithms/bubble_sort.h"
 #include "algorithms/quick_sort.h"
 #include "algorithms/merge_sort.h"
 
@@ -78,24 +78,26 @@ int main(int argc, char *argv[])
     {
         return 1;
     }
-    if ((sortingAlgorithm == "bubble" || sortingAlgorithm == "selection" || sortingAlgorithm == "insertion") && totalInts > 33554432)
+    if (sortingAlgorithm != "quick" && sortingAlgorithm != "merge" &&
+        sortingAlgorithm != "bubble" &&
+        sortingAlgorithm != "quickm3" && sortingAlgorithm != "insertion")
     {
-        cerr << "Error: ese algoritmo no es viable para archivos MEDIUM o LARGE" << endl;
+        cerr << "Error: algoritmo no reconocido" << endl;
         return 1;
     }
     PagedArray *arr = new PagedArray(outputBinPath.c_str(), pageSize, pageCount, totalInts);
     auto start = chrono::high_resolution_clock::now();
-    if (sortingAlgorithm == "bubble")
+    if (sortingAlgorithm == "insertion")
+    {
+        insertionSort(*arr, totalInts);
+    }
+    else if (sortingAlgorithm == "bubble")
     {
         bubbleSort(*arr, totalInts);
     }
-    else if (sortingAlgorithm == "selection")
+    else if (sortingAlgorithm == "quickm3")
     {
-        selectionSort(*arr, totalInts);
-    }
-    else if (sortingAlgorithm == "insertion")
-    {
-        insertionSort(*arr, totalInts);
+        quickSortM3(*arr, 0, totalInts - 1);
     }
     else if (sortingAlgorithm == "quick")
     {

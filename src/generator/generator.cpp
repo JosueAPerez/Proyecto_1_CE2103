@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
     }
     else if (arc_size == "TEST")
     {
-        int_amount = 1000;
+        int_amount = (512LL * 1024) / 4;
     }
     FILE *archivo = fopen(output_path.c_str(), "wb");
     if (archivo == nullptr)
@@ -83,6 +83,15 @@ int main(int argc, char *argv[])
                 cerr << "Error: no se pudieron escribir todos los datos" << endl;
                 return 1;
             }
+        }
+    }
+    if (j > 0)
+    {
+        size_t escritos = fwrite(buffer, sizeof(int32_t), j, archivo);
+        if (escritos != (size_t)j)
+        {
+            cerr << "Error: no se pudieron escribir todos los datos" << endl;
+            return 1;
         }
     }
     fclose(archivo);

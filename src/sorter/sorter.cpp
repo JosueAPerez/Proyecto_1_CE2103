@@ -12,15 +12,15 @@
 #include "algorithms/quick_sort.h"
 #include "algorithms/merge_sort.h"
 
-using namespace std;
+
 void throw_error_message();
-bool copyFile(const string &inputPath, const string &outputPath);
-void generateTextFile(const string &outputBinPath, const string &outputTxtPath, long long totalInts);
+bool copyFile(const std::string &inputPath, const std::string &outputPath);
+void generateTextFile(const std::string &outputBinPath, const std::string &outputTxtPath, long long totalInts);
 int main(int argc, char *argv[])
 {
-    string inputPath;
-    string outputPath;
-    string sortingAlgorithm;
+    std::string inputPath;
+    std::string outputPath;
+    std::string sortingAlgorithm;
     int pageSize;
     int pageCount;
     if (argc < 11)
@@ -30,29 +30,29 @@ int main(int argc, char *argv[])
     }
     for (int i = 1; i < argc; i++)
     {
-        if (string(argv[i]) == "-input")
+        if (std::string(argv[i]) == "-input")
         {
             inputPath = argv[i + 1];
             i++;
         }
-        else if (string(argv[i]) == "-output")
+        else if (std::string(argv[i]) == "-output")
         {
             outputPath = argv[i + 1];
             i++;
         }
-        else if (string(argv[i]) == "-alg")
+        else if (std::string(argv[i]) == "-alg")
         {
             sortingAlgorithm = argv[i + 1];
             i++;
         }
-        else if (string(argv[i]) == "-pageSize")
+        else if (std::string(argv[i]) == "-pageSize")
         {
-            pageSize = stoi(argv[i + 1]);
+            pageSize = std::stoi(argv[i + 1]);
             i++;
         }
-        else if (string(argv[i]) == "-pageCount")
+        else if (std::string(argv[i]) == "-pageCount")
         {
-            pageCount = stoi(argv[i + 1]);
+            pageCount = std::stoi(argv[i + 1]);
             i++;
         }
         else
@@ -61,12 +61,12 @@ int main(int argc, char *argv[])
             return 1;
         }
     }
-    string outputBinPath = outputPath + ".bin";
-    string outputTxtPath = outputPath + ".txt";
+    std::string outputBinPath = outputPath + ".bin";
+    std::string outputTxtPath = outputPath + ".txt";
     FILE *test = fopen(inputPath.c_str(), "rb");
     if (test == nullptr)
     {
-        cerr << "Error: el archivo " << inputPath << " no existe" << std::endl;
+        std::cerr << "Error: el archivo " << inputPath << " no existe" << std::endl;
         return 1;
     }
     fclose(test);
@@ -82,11 +82,11 @@ int main(int argc, char *argv[])
         sortingAlgorithm != "bubble" &&
         sortingAlgorithm != "quickm3" && sortingAlgorithm != "insertion")
     {
-        cerr << "Error: algoritmo no reconocido" << endl;
+        std::cerr << "Error: algoritmo no reconocido" << std::endl;
         return 1;
     }
     PagedArray *arr = new PagedArray(outputBinPath.c_str(), pageSize, pageCount, totalInts);
-    auto start = chrono::high_resolution_clock::now();
+    auto start = std::chrono::high_resolution_clock::now();
     if (sortingAlgorithm == "insertion")
     {
         insertionSort(*arr, totalInts);
@@ -109,35 +109,35 @@ int main(int argc, char *argv[])
     }
     else
     {
-        cerr << "Error: algoritmo no reconocido" << endl;
+        std::cerr << "Error: algoritmo no reconocido" << std::endl;
         return 1;
     }
-    auto end = chrono::high_resolution_clock::now();
-    chrono::duration<double> elapsed = end - start;
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = end - start;
     generateTextFile(outputBinPath, outputTxtPath, totalInts);
-    cout << "Tiempo: " << elapsed.count() << " segundos" << endl;
-    cout << "Algoritmo: " << sortingAlgorithm << endl;
-    cout << "Page faults: " << arr->getPageFaults() << endl;
-    cout << "Page hits: " << arr->getPageHits() << endl;
+    std::cout << "Tiempo: " << elapsed.count() << " segundos" << std::endl;
+    std::cout << "Algoritmo: " << sortingAlgorithm << std::endl;
+    std::cout << "Page faults: " << arr->getPageFaults() << std::endl;
+    std::cout << "Page hits: " << arr->getPageHits() <<std::endl;
     delete arr;
     return 0;
 }
 void throw_error_message()
 {
-    cerr << "Se debe utilizar: -input /ruta/entrada.bin -output /ruta/salida -alg quicksort -pageSize 1024 -pageCount 4" << endl;
+    std::cerr << "Se debe utilizar: -input /ruta/entrada.bin -output /ruta/salida -alg quicksort -pageSize 1024 -pageCount 4" << std::endl;
 }
-bool copyFile(const string &inputPath, const string &outputPath)
+bool copyFile(const std::string &inputPath, const std::string &outputPath)
 {
     FILE *inputFile = fopen(inputPath.c_str(), "rb");
     if (inputFile == nullptr)
     {
-        cerr << "Error: no se pudo abrir el archivo de entrada" << endl;
+        std::cerr << "Error: no se pudo abrir el archivo de entrada" << std::endl;
         return false;
     }
     FILE *outputFile = fopen(outputPath.c_str(), "wb");
     if (outputFile == nullptr)
     {
-        cerr << "Error: no se pudo crear el archivo de salida" << endl;
+        std::cerr << "Error: no se pudo crear el archivo de salida" << std::endl;
         fclose(inputFile);
         return false;
     }
@@ -153,18 +153,18 @@ bool copyFile(const string &inputPath, const string &outputPath)
     fclose(outputFile);
     return true;
 }
-void generateTextFile(const string &outputBinPath, const string &outputTxtPath, long long totalInts)
+void generateTextFile(const std::string &outputBinPath, const std::string &outputTxtPath, long long totalInts)
 {
     FILE *outputBinFile = fopen(outputBinPath.c_str(), "rb");
     if (outputBinFile == nullptr)
     {
-        cerr << "Error: no se pudo crear el archivo de texto" << endl;
+        std::cerr << "Error: no se pudo crear el archivo de texto" << std::endl;
         return;
     }
     FILE *outputTxtFile = fopen(outputTxtPath.c_str(), "w");
     if (outputTxtFile == nullptr)
     {
-        cerr << "Error no se pudo crear el archivo de texto" << endl;
+        std::cerr << "Error no se pudo crear el archivo de texto" << std::endl;
         fclose(outputBinFile);
         return;
     }

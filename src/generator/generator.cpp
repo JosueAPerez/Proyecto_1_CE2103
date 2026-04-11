@@ -4,14 +4,13 @@
 #include <ctime>
 #include <cstdio>
 #include <string>
-using namespace std;
 void throw_error_message();
 int main(int argc, char *argv[])
 {
     // tamanio de archivo
-    string arc_size;
+    std::string arc_size;
     // donde es que termina el archivo creado
-    string output_path;
+    std::string output_path;
     // cantidad de enteros a escribir
     long long int_amount;
     // tamanio del buffer
@@ -24,12 +23,12 @@ int main(int argc, char *argv[])
     }
     for (int i = 1; i < argc; i++)
     {
-        if (string(argv[i]) == "-size")
+        if (std::string(argv[i]) == "-size")
         {
             arc_size = argv[i + 1];
             i++;
         }
-        else if (string(argv[i]) == "-output")
+        else if (std::string(argv[i]) == "-output")
         {
             output_path = argv[i + 1];
             i++;
@@ -64,11 +63,11 @@ int main(int argc, char *argv[])
     FILE *archivo = fopen(output_path.c_str(), "wb");
     if (archivo == nullptr)
     {
-        cerr << "Error: no se pudo crear el archivo" << output_path << endl;
+        std::cerr << "Error: no se pudo crear el archivo" << output_path << std::endl;
         return 1;
     }
-    mt19937 rng(time(nullptr));
-    uniform_int_distribution<int32_t> dist(INT32_MIN, INT32_MAX);
+    std::mt19937 rng(time(nullptr));
+    std::uniform_int_distribution<int32_t> dist(INT32_MIN, INT32_MAX);
     int j = 0;
     for (long long i = 0; i < int_amount; i++)
     {
@@ -80,7 +79,7 @@ int main(int argc, char *argv[])
             j = 0;
             if (escritos != Buffer_size)
             {
-                cerr << "Error: no se pudieron escribir todos los datos" << endl;
+                std::cerr << "Error: no se pudieron escribir todos los datos" << std::endl;
                 return 1;
             }
         }
@@ -90,7 +89,7 @@ int main(int argc, char *argv[])
         size_t escritos = fwrite(buffer, sizeof(int32_t), j, archivo);
         if (escritos != (size_t)j)
         {
-            cerr << "Error: no se pudieron escribir todos los datos" << endl;
+            std::cerr << "Error: no se pudieron escribir todos los datos" << std::endl;
             return 1;
         }
     }
@@ -99,4 +98,4 @@ int main(int argc, char *argv[])
     return 0;
 }
 // mensaje de error en caso de algun problema
-void throw_error_message() { cerr << "Se debe utilizar: ./generator -size <SIZE> -output <OUTPUT FILE PATH>" << '\n'; }
+void throw_error_message() { std::cerr << "Se debe utilizar: ./generator -size <SIZE> -output <OUTPUT FILE PATH>" << '\n'; }

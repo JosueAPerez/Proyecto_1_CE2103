@@ -1,6 +1,5 @@
 #include "PagedArray.h"
 #include <iostream>
-using namespace std;
 PagedArray::PagedArray(const char *filePath, int pageSize, int pageCount, long long totalInts)
 {
     this->pageSize = pageSize;
@@ -15,7 +14,7 @@ PagedArray::PagedArray(const char *filePath, int pageSize, int pageCount, long l
     this->archivo = fopen(filePath, "r+b");
     if (this->archivo == nullptr)
     {
-        cerr << "Error: no se pudo abrir el archivo" << endl;
+        std::cerr << "Error: no se pudo abrir el archivo" << std::endl;
         exit(1);
     }
 

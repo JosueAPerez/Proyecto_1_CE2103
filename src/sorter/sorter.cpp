@@ -114,12 +114,12 @@ int main(int argc, char *argv[])
     }
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end - start;
-    generateTextFile(outputBinPath, outputTxtPath, totalInts);
     std::cout << "Tiempo: " << elapsed.count() << " segundos" << std::endl;
     std::cout << "Algoritmo: " << sortingAlgorithm << std::endl;
     std::cout << "Page faults: " << arr->getPageFaults() << std::endl;
     std::cout << "Page hits: " << arr->getPageHits() <<std::endl;
     delete arr;
+    generateTextFile(outputBinPath, outputTxtPath, totalInts);
     return 0;
 }
 void throw_error_message()
